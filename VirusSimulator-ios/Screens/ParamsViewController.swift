@@ -11,104 +11,22 @@ final class ParamsViewController: UIViewController {
 
     // MARK: - Layout variables
     
-    private lazy var headerLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        label.text = "Ввод параметров"
-        label.font = .systemFont(ofSize: 30)
-        
-        return label
-    }()
-    private lazy var sizeLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        label.text = "Количество людей в моделируемой группе"
-        label.font = .systemFont(ofSize: 20)
-        label.numberOfLines = 2
-        
-        return label
-    }()
-    private lazy var infectionFactorLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        label.text = "Количество людей, которое может быть заражено одним человеком при контакте"
-        label.font = .systemFont(ofSize: 20)
-        label.numberOfLines = 3
-        
-        return label
-    }()
-    private lazy var timeLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        label.text = "Период перерасчёта количетсва зараженных людей"
-        label.font = .systemFont(ofSize: 20)
-        label.numberOfLines = 2
-        
-        return label
-    }()
-    private lazy var sizeTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        
-        textField.placeholder = "100"
-        textField.font = .systemFont(ofSize: 20)
-        textField.layer.cornerRadius = 8
-        textField.layer.borderWidth = 1
-        textField.leftView = UIView(
-            frame: CGRect(
-                x: 0,
-                y: 0,
-                width: 10,
-                height: textField.frame.height
-            )
-        )
-        textField.rightView = UIView(
-            frame: CGRect(
-                x: 0,
-                y: 0,
-                width: 10,
-                height: textField.frame.height
-            )
-        )
-        textField.leftViewMode = .always
-        textField.rightViewMode = .always
-        
-        return textField
-    }()
-    private lazy var infectionFactorTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        
-        textField.placeholder = "3"
-        textField.font = .systemFont(ofSize: 20)
-        textField.layer.cornerRadius = 8
-        textField.layer.borderWidth = 1
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
-        textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
-        textField.leftViewMode = .always
-        textField.rightViewMode = .always
-        
-        return textField
-    }()
-    private lazy var timeTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        
-        textField.placeholder = "1"
-        textField.font = .systemFont(ofSize: 20)
-        textField.layer.cornerRadius = 8
-        textField.layer.borderWidth = 1
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
-        textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
-        textField.leftViewMode = .always
-        textField.rightViewMode = .always
-        
-        return textField
-    }()
+    private lazy var headerLabel: UILabel = CustomLabel(text: "Ввод параметров", fontSize: 30)
+    private lazy var sizeLabel: UILabel = CustomLabel(
+        text: "Количество людей в моделируемой группе",
+        numberOfLines: 2
+    )
+    private lazy var infectionFactorLabel: UILabel = CustomLabel(
+        text: "Количество людей, которое может быть заражено одним человеком при контакте",
+        numberOfLines: 3
+    )
+    private lazy var timeLabel: UILabel = CustomLabel(
+        text: "Период перерасчёта количетсва зараженных людей",
+        numberOfLines: 2
+    )
+    private lazy var sizeTextField: UITextField = CustomTextField(placeholder: "100")
+    private lazy var infectionFactorTextField: UITextField = CustomTextField(placeholder: "3")
+    private lazy var timeTextField: UITextField = CustomTextField(placeholder: "1")
     private lazy var simulateButton: UIButton = {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -150,7 +68,7 @@ private extension ParamsViewController {
     func configureConstraints() {
         NSLayoutConstraint.activate([
             headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 4),
             
             sizeLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             sizeLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),

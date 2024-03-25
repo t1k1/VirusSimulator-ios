@@ -18,19 +18,8 @@ protocol SimulateViewControllerDelegate: AnyObject {
 
 final class SimulateViewController: UIViewController {
 
-    private lazy var infectedCountLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16)
-        return label
-    }()
-    private lazy var healthyCountLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16)
-        return label
-    }()
-    
+    private lazy var infectedCountLabel: UILabel = CustomLabel(fontSize: 16)
+    private lazy var healthyCountLabel: UILabel = CustomLabel(fontSize: 16)
     private lazy var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
