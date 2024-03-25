@@ -21,7 +21,7 @@ protocol SimulateViewControllerDelegate: AnyObject {
 //MARK: - SimulateViewController
 
 final class SimulateViewController: UIViewController {
-
+    
     //MARK: - Layout variables
     
     private lazy var infectedCountLabel: UILabel = CustomLabel(fontSize: 16)
@@ -31,7 +31,7 @@ final class SimulateViewController: UIViewController {
         collectionViewLayout.minimumInteritemSpacing = 10
         collectionViewLayout.minimumLineSpacing = 10
         collectionViewLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        collectionViewLayout.itemSize = CGSize(width: 20, height: 20)
+        collectionViewLayout.itemSize = CGSize(width: 24, height: 24)
         
         let collectionView = UICollectionView(
             frame: .zero,
@@ -142,11 +142,11 @@ extension SimulateViewController: SimulateViewControllerDelegate {
             queueRecalculation?.stopRecalculation()
             return
         }
-    
-        DispatchQueue.main.async { [self] in
-            
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             let infectedCount = newGroup.filter { $0 == true }.count
-            updateLabels(healthyCount: newGroup.count - infectedCount, infectedCount: infectedCount)
+            self.updateLabels(healthyCount: newGroup.count - infectedCount, infectedCount: infectedCount)
             
             self.group = newGroup
             self.collectionView.reloadData()
@@ -158,9 +158,13 @@ extension SimulateViewController: SimulateViewControllerDelegate {
 
 extension SimulateViewController: SimulateDelegate {
     func update(isInfected: Bool, index: Int) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
             self.group[index] = isInfected
-            self.updateCollectionView(with: self.group)
+            let infectedCount = self.group.filter { $0 == true }.count
+            self.updateLabels(healthyCount: self.group.count - infectedCount, infectedCount: infectedCount)
+            self.collectionView.reloadData()
         }
     }
 }
@@ -214,8 +218,8 @@ private extension SimulateViewController {
             return 0
         }
         
-        let width = collectionView.frame.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right
-        let cellWidthWithSpacing = flowLayout.itemSize.width + flowLayout.minimumInteritemSpacing //+
+        let width = collectionView.frame.width
+        let cellWidthWithSpacing = flowLayout.itemSize.width + flowLayout.minimumInteritemSpacing
         let numberOfCellsInRow = Int(floor(width / cellWidthWithSpacing))
         
         return numberOfCellsInRow

@@ -10,7 +10,7 @@ import Foundation
 //MARK: - VirusSimulationQueue
 
 final class VirusSimulationQueue {
-   
+    
     //MARK: - Private variables
     
     private weak var delegate: SimulateViewControllerDelegate?
@@ -38,7 +38,7 @@ final class VirusSimulationQueue {
         self.infectionFactor = infectionFactor
         self.elementsInRow = elementsInRow
     }
-
+    
     //MARK: - Public functions
     
     func stopRecalculation() {
@@ -59,7 +59,7 @@ final class VirusSimulationQueue {
         )
         timerEventMonitor.setEventHandler { [weak self] in
             guard let self = self else { return }
-        
+            
             let recalculatedGroup = recalculate(group: delegate.getGroup())
             
             updateUiQueue.async {
@@ -94,7 +94,7 @@ private extension VirusSimulationQueue {
     
     func getSetOfInfected(_ infectedIds: [Int], elementsInRow: Int, groupSize: Int) -> Set<Int> {
         var result: Set<Int> = []
-    
+        
         infectedIds.forEach() { id in
             let arrOfSimulatedInfection = getArrOfSimulatedInfection(
                 groupSize: groupSize,

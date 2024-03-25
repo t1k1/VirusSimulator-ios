@@ -19,10 +19,6 @@ final class CollectionViewCell: UICollectionViewCell {
     private lazy var button = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 12)
-        
         button.addTarget(self, action: #selector(infect), for: .touchUpInside)
         return button
     }()
@@ -34,8 +30,6 @@ final class CollectionViewCell: UICollectionViewCell {
     func configureCell(isInfected: Bool, index: Int) {
         self.isInfected = isInfected
         self.index = index
-        
-        button.setTitle("\(index)", for: .normal)
         
         if isInfected {
             button.backgroundColor = .red

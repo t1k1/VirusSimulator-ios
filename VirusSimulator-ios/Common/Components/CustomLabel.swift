@@ -21,6 +21,7 @@ final class CustomLabel: UILabel {
     private func setupLabel(text: String, fontSize: CGFloat, numberOfLines: Int) {
         translatesAutoresizingMaskIntoConstraints = false
         
+        textColor = .black
         self.text = text
         font = .systemFont(ofSize: fontSize)
         self.numberOfLines = numberOfLines

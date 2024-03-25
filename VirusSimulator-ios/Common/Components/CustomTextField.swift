@@ -37,9 +37,14 @@ final class CustomTextField: UITextField {
         
         self.delegate = delegate
         
+        let attributedPlaceholder = NSAttributedString(
+            string: placeholder,
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray]
+        )
+        self.attributedPlaceholder = attributedPlaceholder
+        
         font = .systemFont(ofSize: 20)
         textColor = .black
-        self.placeholder = placeholder
         layer.cornerRadius = 8
         layer.borderWidth = 1
         keyboardType = .numberPad

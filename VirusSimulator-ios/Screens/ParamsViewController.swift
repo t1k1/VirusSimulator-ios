@@ -10,7 +10,7 @@ import UIKit
 //MARK: - ParamsViewController
 
 final class ParamsViewController: UIViewController {
-
+    
     // MARK: - Layout variables
     
     private lazy var headerLabel: UILabel = CustomLabel(text: "Ввод параметров", fontSize: 30)
@@ -130,11 +130,11 @@ private extension ParamsViewController {
     @objc
     func simulate() {
         if let sizeTextFieldText = sizeTextField.text,
-              let infectionFactorText = infectionFactorTextField.text,
-              let timeOfIterationText = timeTextField.text,
-              let groupSize = Int(sizeTextFieldText),
-              let infectionFactor = Int(infectionFactorText),
-              let timeOfIteration = Int(timeOfIterationText) {
+           let infectionFactorText = infectionFactorTextField.text,
+           let timeOfIterationText = timeTextField.text,
+           let groupSize = Int(sizeTextFieldText),
+           let infectionFactor = Int(infectionFactorText),
+           let timeOfIteration = Int(timeOfIterationText) {
             
             let simulateViewController = SimulateViewController(
                 groupSize: groupSize,
