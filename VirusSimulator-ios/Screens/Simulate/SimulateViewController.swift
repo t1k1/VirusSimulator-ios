@@ -7,6 +7,8 @@
 
 import UIKit
 
+//MARK: - Protocols
+
 protocol SimulateDelegate: AnyObject {
     func update(isInfected: Bool, index: Int)
 }
@@ -16,13 +18,19 @@ protocol SimulateViewControllerDelegate: AnyObject {
     func getGroup() -> [Bool]
 }
 
+//MARK: - SimulateViewController
+
 final class SimulateViewController: UIViewController {
 
+    //MARK: - Layout variables
+    
     private lazy var infectedCountLabel: UILabel = CustomLabel(fontSize: 16)
     private lazy var healthyCountLabel: UILabel = CustomLabel(fontSize: 16)
     private lazy var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        collectionViewLayout.minimumInteritemSpacing = 10
+        collectionViewLayout.minimumLineSpacing = 10
+        collectionViewLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         collectionViewLayout.itemSize = CGSize(width: 20, height: 20)
         
         let collectionView = UICollectionView(
@@ -37,10 +45,14 @@ final class SimulateViewController: UIViewController {
         return collectionView
     }()
     
+    //MARK: - Private variables
+    
     private var group: [Bool] = []
     private var infectionFactor: Int?
     private var timeOfIteration: Int?
     private var queueRecalculation: VirusSimulationQueue?
+    
+    //MARK: - Initialization
     
     init(groupSize: Int, infectionFactor: Int, timeOfIteration: Int) {
         super.init(nibName: nil, bundle: nil)
@@ -57,31 +69,39 @@ final class SimulateViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
         guard let timeOfIteration = timeOfIteration,
               let infectionFactor = infectionFactor else {
             return
         }
+        
         queueRecalculation = VirusSimulationQueue(
             delegate: self,
             timeOfIteration: timeOfIteration,
-            infectionFactor: infectionFactor
+            infectionFactor: infectionFactor,
+            elementsInRow: numberOfCellsInRow()
         )
-        setupView()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        
         queueRecalculation?.startRecalculation()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
         queueRecalculation?.stopRecalculation()
     }
 }
+
+//MARK: - UICollectionViewDataSource
 
 extension SimulateViewController: UICollectionViewDataSource {
     func collectionView(
@@ -110,6 +130,8 @@ extension SimulateViewController: UICollectionViewDataSource {
     }
 }
 
+//MARK: - SimulateViewControllerDelegate
+
 extension SimulateViewController: SimulateViewControllerDelegate {
     func getGroup() -> [Bool] {
         return group
@@ -132,6 +154,8 @@ extension SimulateViewController: SimulateViewControllerDelegate {
     }
 }
 
+//MARK: - SimulateDelegate
+
 extension SimulateViewController: SimulateDelegate {
     func update(isInfected: Bool, index: Int) {
         DispatchQueue.main.async {
@@ -140,6 +164,8 @@ extension SimulateViewController: SimulateDelegate {
         }
     }
 }
+
+//MARK: - Private functions
 
 private extension SimulateViewController {
     func setupView() {
@@ -171,8 +197,8 @@ private extension SimulateViewController {
             healthyCountLabel.trailingAnchor.constraint(equalTo: infectedCountLabel.trailingAnchor),
             healthyCountLabel.topAnchor.constraint(equalTo: infectedCountLabel.bottomAnchor),
             
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             collectionView.topAnchor.constraint(equalTo: healthyCountLabel.bottomAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
@@ -181,5 +207,17 @@ private extension SimulateViewController {
     func updateLabels(healthyCount: Int, infectedCount: Int) {
         infectedCountLabel.text = "Количество больных: \(infectedCount)"
         healthyCountLabel.text = "Количество здоровых: \(healthyCount)"
+    }
+    
+    func numberOfCellsInRow() -> Int {
+        guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return 0
+        }
+        
+        let width = collectionView.frame.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right
+        let cellWidthWithSpacing = flowLayout.itemSize.width + flowLayout.minimumInteritemSpacing //+
+        let numberOfCellsInRow = Int(floor(width / cellWidthWithSpacing))
+        
+        return numberOfCellsInRow
     }
 }

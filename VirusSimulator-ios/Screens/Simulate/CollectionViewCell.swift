@@ -9,8 +9,12 @@ import UIKit
 
 final class CollectionViewCell: UICollectionViewCell {
     
+    //MARK: - Public variables
+    
     static let cellName = "humanCell"
     weak var delegate: SimulateDelegate?
+    
+    //MARK: - Layout variables
     
     private lazy var button = {
         let button = UIButton()
@@ -22,9 +26,10 @@ final class CollectionViewCell: UICollectionViewCell {
         button.addTarget(self, action: #selector(infect), for: .touchUpInside)
         return button
     }()
-    
     private var isInfected: Bool?
     private var index: Int?
+    
+    //MARK: - Public functions
     
     func configureCell(isInfected: Bool, index: Int) {
         self.isInfected = isInfected
@@ -41,6 +46,8 @@ final class CollectionViewCell: UICollectionViewCell {
         configureConstraints()
     }
 }
+
+//MARK: - Private functions
 
 private extension CollectionViewCell {
     func addSubViews() {

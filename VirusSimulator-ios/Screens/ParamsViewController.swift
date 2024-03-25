@@ -7,6 +7,8 @@
 
 import UIKit
 
+//MARK: - ParamsViewController
+
 final class ParamsViewController: UIViewController {
 
     // MARK: - Layout variables
@@ -40,12 +42,16 @@ final class ParamsViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
     }
 }
+
+// MARK: - UITextFieldDelegate
 
 extension ParamsViewController: UITextFieldDelegate {
     func textField(
@@ -60,6 +66,8 @@ extension ParamsViewController: UITextFieldDelegate {
         return true
     }
 }
+
+// MARK: - Private functions
 
 private extension ParamsViewController {
     func setupView() {
