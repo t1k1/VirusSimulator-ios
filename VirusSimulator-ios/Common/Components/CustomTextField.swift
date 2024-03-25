@@ -10,9 +10,9 @@ import UIKit
 final class CustomTextField: UITextField {
     private let padding = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     
-    init(placeholder: String) {
+    init(placeholder: String, delegate: UITextFieldDelegate? = nil) {
         super.init(frame: .zero)
-        setupTextField(placeholder: placeholder)
+        setupTextField(placeholder: placeholder, delegate: delegate)
     }
     
     @available(*, unavailable)
@@ -32,14 +32,17 @@ final class CustomTextField: UITextField {
         bounds.inset(by: padding)
     }
     
-    private func setupTextField(placeholder: String) {
+    private func setupTextField(placeholder: String, delegate: UITextFieldDelegate?) {
         translatesAutoresizingMaskIntoConstraints = false
+        
+        self.delegate = delegate
         
         font = .systemFont(ofSize: 20)
         textColor = .black
         self.placeholder = placeholder
         layer.cornerRadius = 8
         layer.borderWidth = 1
-        
+        keyboardType = .numberPad
+        clearButtonMode = .whileEditing
     }
 }

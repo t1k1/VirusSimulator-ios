@@ -24,9 +24,9 @@ final class ParamsViewController: UIViewController {
         text: "Период перерасчёта количетсва зараженных людей",
         numberOfLines: 2
     )
-    private lazy var sizeTextField: UITextField = CustomTextField(placeholder: "100")
-    private lazy var infectionFactorTextField: UITextField = CustomTextField(placeholder: "3")
-    private lazy var timeTextField: UITextField = CustomTextField(placeholder: "1")
+    private lazy var sizeTextField: UITextField = CustomTextField(placeholder: "100", delegate: self)
+    private lazy var infectionFactorTextField: UITextField = CustomTextField(placeholder: "3", delegate: self)
+    private lazy var timeTextField: UITextField = CustomTextField(placeholder: "1", delegate: self)
     private lazy var simulateButton: UIButton = {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -47,9 +47,24 @@ final class ParamsViewController: UIViewController {
     }
 }
 
+extension ParamsViewController: UITextFieldDelegate {
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        guard let text = textField.text else { return false }
+        let newString = NSString(string: text).replacingCharacters(in: range, with: string)
+        
+        guard CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: newString)) else { return false }
+        return true
+    }
+}
+
 private extension ParamsViewController {
     func setupView() {
         view.backgroundColor = .white
+        hideKeyboardWhenTappedAround()
         addSubViews()
         configureConstraints()
     }
