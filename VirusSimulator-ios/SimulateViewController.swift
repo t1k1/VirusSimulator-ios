@@ -18,6 +18,19 @@ protocol SimulateViewControllerDelegate: AnyObject {
 
 final class SimulateViewController: UIViewController {
 
+    private lazy var infectedCountLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 16)
+        return label
+    }()
+    private lazy var healthyCountLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 16)
+        return label
+    }()
+    
     private lazy var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
@@ -120,6 +133,10 @@ extension SimulateViewController: SimulateViewControllerDelegate {
         }
     
         DispatchQueue.main.async { [self] in
+            
+            let infectedCount = newGroup.filter { $0 == true }.count
+            updateLabels(healthyCount: newGroup.count - infectedCount, infectedCount: infectedCount)
+            
             self.group = newGroup
             self.collectionView.reloadData()
         }
@@ -139,6 +156,8 @@ private extension SimulateViewController {
     func setupView() {
         view.backgroundColor = .white
         
+        updateLabels(healthyCount: group.count, infectedCount: 0)
+        
         collectionView.register(
             CollectionViewCell.self,
             forCellWithReuseIdentifier: CollectionViewCell.cellName
@@ -148,15 +167,30 @@ private extension SimulateViewController {
     }
     
     func addSubViews() {
+        view.addSubview(infectedCountLabel)
+        view.addSubview(healthyCountLabel)
         view.addSubview(collectionView)
     }
     
     func configureConstraints() {
         NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            infectedCountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            infectedCountLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+            infectedCountLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            
+            healthyCountLabel.leadingAnchor.constraint(equalTo: infectedCountLabel.leadingAnchor),
+            healthyCountLabel.trailingAnchor.constraint(equalTo: infectedCountLabel.trailingAnchor),
+            healthyCountLabel.topAnchor.constraint(equalTo: infectedCountLabel.bottomAnchor),
+            
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: healthyCountLabel.bottomAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    func updateLabels(healthyCount: Int, infectedCount: Int) {
+        infectedCountLabel.text = "Количество больных: \(infectedCount)"
+        healthyCountLabel.text = "Количество здоровых: \(healthyCount)"
     }
 }
