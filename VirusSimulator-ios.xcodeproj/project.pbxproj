@@ -15,6 +15,8 @@
 		D51A10E72BAED358009D33FC /* SimulateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A10E62BAED358009D33FC /* SimulateViewController.swift */; };
 		D51A10EB2BAEE20E009D33FC /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A10EA2BAEE20E009D33FC /* CollectionViewCell.swift */; };
 		D51A10ED2BB02386009D33FC /* VirusSimulationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A10EC2BB02386009D33FC /* VirusSimulationQueue.swift */; };
+		D51A10F12BB1A12E009D33FC /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A10F02BB1A12E009D33FC /* CustomTextField.swift */; };
+		D51A10F32BB1A2B1009D33FC /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A10F22BB1A2B1009D33FC /* CustomLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		D51A10E62BAED358009D33FC /* SimulateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulateViewController.swift; sourceTree = "<group>"; };
 		D51A10EA2BAEE20E009D33FC /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		D51A10EC2BB02386009D33FC /* VirusSimulationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirusSimulationQueue.swift; sourceTree = "<group>"; };
+		D51A10F02BB1A12E009D33FC /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		D51A10F22BB1A2B1009D33FC /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,17 +64,75 @@
 		D51A10D12BAE05DC009D33FC /* VirusSimulator-ios */ = {
 			isa = PBXGroup;
 			children = (
-				D51A10D22BAE05DC009D33FC /* AppDelegate.swift */,
-				D51A10D42BAE05DC009D33FC /* SceneDelegate.swift */,
+				D51A10F52BB1A56A009D33FC /* App */,
+				D51A10EE2BB1A0D0009D33FC /* Common */,
+				D51A10F42BB1A54E009D33FC /* Screens */,
+				D51A10F72BB1A59A009D33FC /* Resources */,
+			);
+			path = "VirusSimulator-ios";
+			sourceTree = "<group>";
+		};
+		D51A10EE2BB1A0D0009D33FC /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				D51A10F82BB1A5D5009D33FC /* Services */,
+				D51A10EF2BB1A108009D33FC /* Components */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		D51A10EF2BB1A108009D33FC /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				D51A10F02BB1A12E009D33FC /* CustomTextField.swift */,
+				D51A10F22BB1A2B1009D33FC /* CustomLabel.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		D51A10F42BB1A54E009D33FC /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				D51A10F62BB1A57A009D33FC /* Simulate */,
 				D51A10D62BAE05DC009D33FC /* ParamsViewController.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		D51A10F52BB1A56A009D33FC /* App */ = {
+			isa = PBXGroup;
+			children = (
+				D51A10D42BAE05DC009D33FC /* SceneDelegate.swift */,
+				D51A10D22BAE05DC009D33FC /* AppDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D51A10F62BB1A57A009D33FC /* Simulate */ = {
+			isa = PBXGroup;
+			children = (
 				D51A10E62BAED358009D33FC /* SimulateViewController.swift */,
 				D51A10EA2BAEE20E009D33FC /* CollectionViewCell.swift */,
-				D51A10EC2BB02386009D33FC /* VirusSimulationQueue.swift */,
+			);
+			path = Simulate;
+			sourceTree = "<group>";
+		};
+		D51A10F72BB1A59A009D33FC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				D51A10DB2BAE05DD009D33FC /* Assets.xcassets */,
 				D51A10DD2BAE05DD009D33FC /* LaunchScreen.storyboard */,
 				D51A10E02BAE05DD009D33FC /* Info.plist */,
 			);
-			path = "VirusSimulator-ios";
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D51A10F82BB1A5D5009D33FC /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D51A10EC2BB02386009D33FC /* VirusSimulationQueue.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,12 +205,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D51A10F12BB1A12E009D33FC /* CustomTextField.swift in Sources */,
 				D51A10D72BAE05DC009D33FC /* ParamsViewController.swift in Sources */,
 				D51A10ED2BB02386009D33FC /* VirusSimulationQueue.swift in Sources */,
 				D51A10D32BAE05DC009D33FC /* AppDelegate.swift in Sources */,
 				D51A10EB2BAEE20E009D33FC /* CollectionViewCell.swift in Sources */,
 				D51A10E72BAED358009D33FC /* SimulateViewController.swift in Sources */,
 				D51A10D52BAE05DC009D33FC /* SceneDelegate.swift in Sources */,
+				D51A10F32BB1A2B1009D33FC /* CustomLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
