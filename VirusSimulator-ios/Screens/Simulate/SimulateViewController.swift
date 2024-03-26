@@ -138,11 +138,6 @@ extension SimulateViewController: SimulateViewControllerDelegate {
     }
     
     func updateCollectionView(with newGroup: [Bool]) {
-        if !group.contains(false) {
-            queueRecalculation?.stopRecalculation()
-            return
-        }
-        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             let infectedCount = newGroup.filter { $0 == true }.count
@@ -150,6 +145,11 @@ extension SimulateViewController: SimulateViewControllerDelegate {
             
             self.group = newGroup
             self.collectionView.reloadData()
+            
+            if !newGroup.contains(false) {
+                queueRecalculation?.stopRecalculation()
+                return
+            }
         }
     }
 }
