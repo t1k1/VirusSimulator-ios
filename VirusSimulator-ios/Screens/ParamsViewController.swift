@@ -33,7 +33,7 @@ final class ParamsViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
         
-        button.backgroundColor = .black
+        button.backgroundColor = .gray
         button.setTitle("Запустить моделирование", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 16
@@ -64,6 +64,19 @@ extension ParamsViewController: UITextFieldDelegate {
         
         guard CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: newString)) else { return false }
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let sizeTextFieldtext = sizeTextField.text,
+              let infectionFactorTextFieldtext = infectionFactorTextField.text,
+              let timeTextFieldtext = timeTextField.text else {
+            return
+        }
+        if !sizeTextFieldtext.isEmpty && !infectionFactorTextFieldtext.isEmpty && !timeTextFieldtext.isEmpty {
+            buttonAvailible()
+            return
+        }
+        buttonNotAvailible()
     }
 }
 
@@ -127,6 +140,14 @@ private extension ParamsViewController {
         ])
     }
     
+    func buttonNotAvailible() {
+        simulateButton.backgroundColor = .gray
+    }
+    
+    func buttonAvailible() {
+        simulateButton.backgroundColor = .black
+    }
+    
     @objc
     func simulate() {
         if let sizeTextFieldText = sizeTextField.text,
@@ -140,13 +161,6 @@ private extension ParamsViewController {
                 groupSize: groupSize,
                 infectionFactor: infectionFactor,
                 timeOfIteration: timeOfIteration
-            )
-            navigationController?.pushViewController(simulateViewController, animated: true)
-        } else {
-            let simulateViewController = SimulateViewController(
-                groupSize: 100,
-                infectionFactor: 3,
-                timeOfIteration: 1
             )
             navigationController?.pushViewController(simulateViewController, animated: true)
         }
