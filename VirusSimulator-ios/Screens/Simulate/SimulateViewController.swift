@@ -76,8 +76,8 @@ final class SimulateViewController: UIViewController {
         setupView()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         guard let timeOfIteration = timeOfIteration,
               let infectionFactor = infectionFactor else {
@@ -158,13 +158,11 @@ extension SimulateViewController: SimulateViewControllerDelegate {
 
 extension SimulateViewController: SimulateDelegate {
     func update(isInfected: Bool, index: Int) {
+        group[index] = isInfected
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
-            self.group[index] = isInfected
-            let infectedCount = self.group.filter { $0 == true }.count
-            self.updateLabels(healthyCount: self.group.count - infectedCount, infectedCount: infectedCount)
-            self.collectionView.reloadData()
+            self.updateCollectionView(with: self.group)
         }
     }
 }
